@@ -1,0 +1,24 @@
+{
+  "name": "hardhat",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat deploy --network sepolia"
+  },
+  "dependencies": {
+    "@fhevm/solidity": "0.9.1",
+    "@fhevm/host-contracts": "^0.9.0",
+    "encrypted-types": "^0.0.4",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0",
+    "hardhat-deploy": "^0.12.0",
+    "dotenv": "^16.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
+

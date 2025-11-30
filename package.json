@@ -1,0 +1,20 @@
+{
+  "name": "age-verification-fhevm",
+  "version": "1.0.0",
+  "description": "Privacy-preserving age verification using FHEVM v0.9",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "pnpm --filter nextjs-showcase dev",
+    "build": "pnpm --filter nextjs-showcase build",
+    "hardhat:compile": "pnpm --filter hardhat compile",
+    "hardhat:test": "pnpm --filter hardhat test",
+    "hardhat:deploy": "pnpm --filter hardhat deploy"
+  },
+  "keywords": ["fhevm", "privacy", "age-verification", "zama"],
+  "author": "",
+  "license": "MIT"
+}
+

@@ -39,7 +39,6 @@ export default function VerifyPage() {
   const [age, setAge] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDecrypting, setIsDecrypting] = useState(false);
-  const [countdown, setCountdown] = useState(0);
   const [canDecrypt, setCanDecrypt] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -132,18 +131,8 @@ export default function VerifyPage() {
       await tx.wait();
       console.log('✅ Transaction confirmed');
       
-      // 3. Start countdown (wait for permission sync)
-      setCountdown(10);
-      const timer = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timer);
-            setCanDecrypt(true);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+      // Allow decryption immediately
+      setCanDecrypt(true);
       
     } catch (e: any) {
       console.error('❌ Submit error:', e);
@@ -302,7 +291,7 @@ export default function VerifyPage() {
               onChange={(e) => setAge(e.target.value)}
               placeholder="e.g., 25"
               className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700"
-              disabled={isSubmitting || countdown > 0}
+              disabled={isSubmitting || canDecrypt}
             />
             <p className="text-xs text-gray-500 mt-1">
               Your age will be encrypted before submission
@@ -312,20 +301,11 @@ export default function VerifyPage() {
           {/* Submit Button */}
           <button
             onClick={handleSubmitAge}
-            disabled={!age || isSubmitting || countdown > 0 || result !== null}
+            disabled={!age || isSubmitting || canDecrypt || result !== null}
             className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {isSubmitting ? '⏳ Submitting...' : '🔒 Submit Encrypted Age'}
           </button>
-          
-          {/* Countdown Timer */}
-          {countdown > 0 && (
-            <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl">
-              <p className="text-sm text-amber-800 dark:text-amber-200 text-center">
-                ⏳ Syncing permissions... Please wait <strong>{countdown}</strong> seconds
-              </p>
-            </div>
-          )}
           
           {/* Decrypt Button */}
           {canDecrypt && result === null && (
@@ -334,7 +314,7 @@ export default function VerifyPage() {
               disabled={isDecrypting}
               className="w-full mt-4 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50"
             >
-              {isDecrypting ? '🔓 Decrypting... (30-60s)' : '🔓 Decrypt Result'}
+              {isDecrypting ? '🔓 Decrypting...' : '🔓 Decrypt Result'}
             </button>
           )}
           

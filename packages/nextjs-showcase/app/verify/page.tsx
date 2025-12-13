@@ -192,7 +192,7 @@ export default function VerifyPage() {
       console.log('✅ Signature received');
       
       // Call userDecrypt
-      console.log('🔓 Decrypting... (may take 30-60 seconds)');
+      console.log('🔓 Decrypting...');
       const decryptedResults = await fhevmInstance.userDecrypt(
         handleContractPairs,
         keypair.privateKey,
@@ -205,8 +205,12 @@ export default function VerifyPage() {
       );
       
       const decryptedValue = decryptedResults[encryptedHandle];
-      console.log('✅ Decrypted result:', decryptedValue);
-      setResult(decryptedValue);
+      console.log('✅ Decrypted result (raw):', decryptedValue, typeof decryptedValue);
+      
+      // Convert bigint to number (userDecrypt returns 0n or 1n)
+      const resultNumber = Number(decryptedValue);
+      console.log('✅ Converted to number:', resultNumber);
+      setResult(resultNumber);
       
     } catch (e: any) {
       console.error('❌ Decrypt error:', e);
